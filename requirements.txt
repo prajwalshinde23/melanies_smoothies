@@ -2,3 +2,4 @@
 snowflake-snowpark-python
 streamlit
 requests
+pyarrow<19.0.0
