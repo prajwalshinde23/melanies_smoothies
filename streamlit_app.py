@@ -56,3 +56,14 @@ import requests
 smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
 sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
+if smoothiefroot_response.status_code == 200:
+    # If successful, parse the JSON and display it in a nice table
+    fruityvice_data = smoothiefroot_response.json()
+    st.dataframe(data=fruityvice_data, use_container_width=True)
+else:
+    # If not successful, show a helpful error message instead of crashing
+    st.error("Could not retrieve data from the API.")
+    st.write("Status Code:", smoothiefroot_response.status_code)
+    st.write("Response Body:", smoothiefroot_response.text) # This shows what the server actually sent back
+    
+
