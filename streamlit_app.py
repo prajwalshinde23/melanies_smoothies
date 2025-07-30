@@ -28,12 +28,13 @@ ingredients_list = st.multiselect(
     max_selections= 5
 )
 if ingredients_list:
-    
-
-    ingredients_string=''
+    ingredients_string = ''
 
     for fruit_chosen in ingredients_list:
         ingredients_string += fruit_chosen + ' '
+        st.subheader(fruit_chosen + ' Nutrition Information')
+        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + fruit_chosen)
+        sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
     # st.write(ingredients_string)
 
@@ -52,23 +53,6 @@ if ingredients_list:
         st.success('Your Smoothie is ordered!', icon="✅")
 
 import requests
-# --- SmoothieFroot Fruit Advice! ---
-st.write("---")
-st.header("SmoothieFroot Fruit Advice!")
-try:
-    fruit_choice = st.text_input('What fruit would you like information about?')
-    if not fruit_choice:
-        st.write("Please select a fruit to get information.")
-    else:
-        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + fruit_choice)
-        # Check the status code before trying to parse the JSON
-        if smoothiefroot_response.status_code == 200:
-             # Use st.dataframe to display the JSON in a structured table
-             smoothiefroot_data = smoothiefroot_response.json()
-             st.dataframe(data=smoothiefroot_data, use_container_width=True)
-        else:
-             st.error(f"Could not retrieve data for '{fruit_choice}'. Please check the spelling.")
-
-except requests.exceptions.RequestException as e:
-    st.error(f"An error occurred while trying to contact the API: {e}")
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
